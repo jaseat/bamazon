@@ -51,12 +51,13 @@ function prompt() {
             if(stock < quantity)
                 console.log('Insufficient quantity!');
             else{
-                queryStr = `update products set stock_quantity = ${stock - quantity} where item_id = ${id}`;
+                let sales = quantity * price;
+                queryStr = `update products set stock_quantity = ${stock - quantity}, product_sales = product_sales + ${sales} where item_id = ${id}`;
                 connection.query(queryStr, (err, results, fields) => {
                     if(err)
                         return console.log(err);
                     console.log('Transaction successful!');
-                    console.log('Total Cost: ' + quantity * price);
+                    console.log('Total Cost: ' + sales);
                 });
             }
             connection.end();
